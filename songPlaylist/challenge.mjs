@@ -45,17 +45,37 @@ The output must be a list containing the final order of the songs.
 **/
 export function getPlaylist(btnPresses) {
   let playlist = ['A', 'B', 'C', 'D', 'E'];
-  if (btnPresses[0] === '11') {
-    playlist.push(playlist.shift());
-    return playlist;
-  } else if (btnPresses[0] === '21') {
-    playlist.splice(0, 0, playlist.pop());
-    return playlist;
-  } else if (btnPresses[0] === '31') {
-    [playlist[0], playlist[1]] = [playlist[1], playlist[0]];
-    return playlist;
+
+  for (const btnPress of btnPresses) {
+    if (btnPress[0] === '1') {
+      for (let i = 0; i < parseInt(btnPress[1]); i++) {
+        playlist = pressBtnOne(playlist);
+      }
+    } else if (btnPress[0] === '2') {
+      for (let i = 0; i < parseInt(btnPress[1]); i++) {
+        playlist = pressBtnTwo(playlist);
+      }
+    } else if (btnPress[0] === '3') {
+      for (let i = 0; i < parseInt(btnPress[1]); i++) {
+        playlist = pressBtnThree(playlist);
+      }
+    } else if (btnPress === '41') {
+      return playlist;
+    }
   }
-  if (btnPresses[0] === '41') {
-    return playlist;
-  }
+}
+
+function pressBtnOne(playlist) {
+  playlist.push(playlist.shift());
+  return playlist;
+}
+
+function pressBtnTwo(playlist) {
+  playlist.unshift(playlist.pop());
+  return playlist;
+}
+
+function pressBtnThree(playlist) {
+  [playlist[0], playlist[1]] = [playlist[1], playlist[0]];
+  return playlist;
 }
