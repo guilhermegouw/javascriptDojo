@@ -31,8 +31,9 @@ the following lines:
 - Second parameter: numberOfDays (between 2 and 4,745)
 - Third parameter: salesData an array of arrays with integers
 (between 1 and 13,000) Each integer speciﬁes a number of sales.
-The ﬁrst of these lines gives the sales for each franchise on the ﬁrst day,
-the second gives the sales for each franchise on the second day, and so on.
+The ﬁrst integer of these arrays gives the sales for each franchise on the
+ﬁrst day, the second gives the sales for each franchise on the second day, and
+so on.
 
 Output
 
@@ -42,4 +43,28 @@ export function getBonusesAwarded(
   numberOfFranchisees,
   numberOfDays,
   salesData,
-) {}
+) {
+  let totalSales = new Array(numberOfDays).fill(0);
+  let totalBonuses = 0;
+
+  // Calculate bonuses for each franchisee's total sales
+  salesData.forEach((sales) => {
+    let salesSum = sales.reduce((acc, current) => acc + current, 0);
+    if (salesSum % 13 === 0 && salesSum !== 0) {
+      totalBonuses += salesSum / 13;
+    }
+    sales.forEach((sale, index) => {
+      totalSales[index] += sale;
+    });
+  });
+
+  // Calculate bonuses for each day's total sales
+  totalSales.forEach((dailySales) => {
+    if (dailySales % 13 === 0 && dailySales !== 0) {
+      totalBonuses += dailySales / 13;
+    }
+  });
+
+  return totalBonuses;
+}
+
